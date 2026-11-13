@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AnimeWall — Find Your Anime Aesthetic</title>
+  <meta name="description" content="A curated anime wallpaper discovery and gallery platform inspired by Japanese minimalist aesthetics and editorial art direction.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23B83B3B'/><text x='16' y='22' font-family='serif' font-size='18' font-weight='bold' fill='%23FFFFFF' text-anchor='middle'>壁</text></svg>">
+  
+  <!-- Google Fonts: Inter (UI/Body) & Noto Serif JP (Editorial Headings) & Noto Sans JP (Accents) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ======================================================================
+       Site Header & Sticky Navigation Bar
+       ====================================================================== -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main Navigation">
+        <!-- Left: Brand Logo and Wordmark -->
+        <a href="#home" class="nav-brand" id="brand-link" title="AnimeWall Home">
+          <div class="hanko-stamp" aria-hidden="true">壁</div>
+          <div class="brand-text-wrap">
+            <span class="brand-title">AnimeWall</span>
+            <span class="brand-subtitle">Find Your Aesthetic</span>
+          </div>
+        </a>
+
+        <!-- Center: Navigation Links -->
+        <ul class="nav-links" id="nav-links-list">
+          <li><a href="#home" class="nav-link active" data-view="home">Home</a></li>
+          <li><a href="#explore" class="nav-link" data-view="explore">Explore</a></li>
+          <li><a href="#categories" class="nav-link" data-view="categories">Categories</a></li>
+          <li><a href="#collections" class="nav-link" data-view="collections">Collections</a></li>
+          <li><a href="#about" class="nav-link" data-view="about">About</a></li>
+        </ul>
+
+        <!-- Right: Actions & Tools -->
+        <div class="nav-actions">
+          <!-- Quick Search Button -->
+          <button class="search-nav-btn" id="search-open-btn" aria-label="Search Wallpapers" title="Quick Search (Ctrl + K)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <span class="search-label">Search</span>
+            <span class="key-hint">Ctrl K</span>
+          </button>
+
+          <!-- Favorites Button -->
+          <a href="#favorites" class="icon-btn" id="nav-fav-btn" title="Saved Wallpapers" aria-label="Saved Wallpapers">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <span class="badge-count empty" id="nav-fav-count">0</span>
+          </a>
+
+          <!-- Theme Toggle (Light / Sumi Dark) -->
+          <button class="icon-btn" id="theme-toggle-btn" title="Switch Theme (Light / Sumi Night)" aria-label="Toggle Theme">
+            <svg id="theme-sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg id="theme-moon-icon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+
+          <!-- User Profile Icon / Curator -->
+          <button class="icon-btn" id="user-profile-btn" title="Curator Profile" aria-label="Curator Profile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </button>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button class="icon-btn mobile-menu-btn" id="mobile-toggle-btn" aria-label="Toggle Mobile Menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Mobile Drawer Navigation -->
+    <div class="mobile-drawer" id="mobile-drawer">
+      <ul class="mobile-nav-list">
+        <li>
+          <a href="#home" class="mobile-nav-link" data-view="home">
+            <span>Home</span>
+            <span class="kanji-sub">美</span>
+          </a>
+        </li>
+        <li>
+          <a href="#explore" class="mobile-nav-link" data-view="explore">
+            <span>Explore</span>
+            <span class="kanji-sub">探索</span>
+          </a>
+        </li>
+        <li>
+          <a href="#categories" class="mobile-nav-link" data-view="categories">
+            <span>Categories</span>
+            <span class="kanji-sub">分野</span>
+          </a>
+        </li>
+        <li>
+          <a href="#collections" class="mobile-nav-link" data-view="collections">
+            <span>Collections</span>
+            <span class="kanji-sub">特集</span>
+          </a>
+        </li>
+        <li>
+          <a href="#favorites" class="mobile-nav-link" data-view="favorites">
+            <span>Favorites</span>
+            <span class="kanji-sub">保存</span>
+          </a>
+        </li>
+        <li>
+          <a href="#about" class="mobile-nav-link" data-view="about">
+            <span>About</span>
+            <span class="kanji-sub">理念</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       MAIN CONTENT CONTAINER (SPA Views)
+       ====================================================================== -->
+  <main id="main-content">
+
+    <!-- ------------------------------------------------------------------
+         VIEW 1: HOMEPAGE
+         ------------------------------------------------------------------ -->
+    <div id="home-view" class="view-section active">
+
+      <!-- Section A: Hero Section -->
+      <section class="hero-section">
+        <div class="container">
+          <div class="hero-editorial-card">
+            <!-- Left Hero Content -->
+            <div class="hero-content">
+              <div class="hero-welcome-badge">
+                <span class="vermilion-dot" aria-hidden="true"></span>
+                <span class="hero-welcome-text">いらっしゃいませ — WELCOME</span>
+              </div>
+              <h1 class="hero-title">Find Your Anime Aesthetic.</h1>
+              <p class="hero-description">
+                Discover beautiful wallpapers, explore new aesthetics and make every screen feel yours.
+              </p>
+              <div class="hero-cta-group">
+                <a href="#explore" class="btn-primary" id="hero-primary-cta">
+                  <span>Explore Wallpapers</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+                <a href="#collections" class="btn-secondary">
+                  <span>Discover Collections</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Right Hero Cinematic Visual Frame -->
+            <div class="hero-visual-frame">
+              <img 
+                src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1600&q=85" 
+                alt="Twilight Over Shinjuku Crossing Anime Aesthetic Landscape" 
+                class="hero-img"
+                loading="eager"
+              >
+              <div class="hero-artwork-attribution">
+                <div class="hanko-mini">印</div>
+                <span>Curated: Twilight Over Shinjuku — 4K Ultra HD</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Micro Stats Strip -->
+          <div class="stats-strip">
+            <div class="stat-item">
+              <span class="stat-number">4,800+</span>
+              <span class="stat-label">Master Wallpapers</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">4K / 2K</span>
+              <span class="stat-label">Lossless Resolutions</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">8 Styles</span>
+              <span class="stat-label">Aesthetic Categories</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">Ma (間)</span>
+              <span class="stat-label">Japanese Negative Space</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section B: Featured Wallpapers (Curated for Your Screen) -->
+      <section class="section-pad">
+        <div class="container">
+          <div class="section-header-split">
+            <div class="section-header-info">
+              <div class="section-label-group">
+                <span class="section-label">Editorial Selection</span>
+                <span class="section-kanji-tag">厳選作品 — 美</span>
+              </div>
+              <h2 class="section-title">Curated for Your Screen</h2>
+              <p class="section-description">
+                Art-directed compositions balanced in color harmony, mood, and visual serenity.
+              </p>
+            </div>
+            <a href="#explore" class="view-all-link">
+              <span>View All Artworks</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Masonry Gallery -->
+          <div class="masonry-gallery" id="home-featured-gallery">
+            <!-- Rendered dynamically by app.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Section C: Browse Categories -->
+      <section class="section-pad" style="background-color: var(--bg-secondary);">
+        <div class="container">
+          <div class="section-header-split">
+            <div class="section-header-info">
+              <div class="section-label-group">
+                <span class="section-label">Aesthetic Genres</span>
+                <span class="section-kanji-tag">分野 — CATEGORIES</span>
+              </div>
+              <h2 class="section-title">Browse Categories</h2>
+              <p class="section-description">
+                Find wallpapers that mirror your mood, from serene moss temples to rain-slicked cyberpunk alleys.
+              </p>
+            </div>
+            <a href="#categories" class="view-all-link">
+              <span>Explore All Categories</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <!-- 8 Visual Category Cards -->
+          <div class="categories-grid" id="home-categories-grid">
+            <!-- Rendered dynamically by app.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Section D: Trending Wallpapers (Popular This Week) -->
+      <section class="section-pad">
+        <div class="container">
+          <div class="section-header-split">
+            <div class="section-header-info">
+              <div class="section-label-group">
+                <span class="section-label">Community Favourites</span>
+                <span class="section-kanji-tag">今週の人気 — TRENDING</span>
+              </div>
+              <h2 class="section-title">Popular This Week</h2>
+              <p class="section-description">
+                The most downloaded and admired scenes across desktops and smartphones worldwide.
+              </p>
+            </div>
+            <a href="#explore" class="view-all-link" id="home-trending-view-all">
+              <span>View Leaderboard</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Trending Grid -->
+          <div class="trending-grid" id="home-trending-grid">
+            <!-- Rendered dynamically by app.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Section E: Featured Collections (Stories in Every Frame) -->
+      <section class="section-pad" style="background-color: var(--bg-secondary);">
+        <div class="container">
+          <div class="section-header-split">
+            <div class="section-header-info">
+              <div class="section-label-group">
+                <span class="section-label">Curated Narratives</span>
+                <span class="section-kanji-tag">特集 — COLLECTIONS</span>
+              </div>
+              <h2 class="section-title">Stories in Every Frame</h2>
+              <p class="section-description">
+                Cohesive visual journeys woven together by shared emotional tones, seasons, and Japanese motifs.
+              </p>
+            </div>
+            <a href="#collections" class="view-all-link">
+              <span>Browse All Collections</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Collections Grid -->
+          <div class="collections-grid" id="home-collections-grid">
+            <!-- Rendered dynamically by app.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Section F: Latest Uploads -->
+      <section class="section-pad">
+        <div class="container">
+          <div class="section-header-split">
+            <div class="section-header-info">
+              <div class="section-label-group">
+                <span class="section-label">Fresh Curations</span>
+                <span class="section-kanji-tag">新着作品 — LATEST</span>
+              </div>
+              <h2 class="section-title">Latest Uploads</h2>
+              <p class="section-description">
+                Newly verified master-grade anime wallpapers added to the AnimeWall archive.
+              </p>
+            </div>
+            <a href="#explore" class="view-all-link" id="home-latest-view-all">
+              <span>Explore All Fresh Art</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Latest Uploads Masonry -->
+          <div class="masonry-gallery" id="home-latest-gallery">
+            <!-- Rendered dynamically by app.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Section G: Newsletter Section (Stay Inspired) -->
+      <section class="section-pad-sm">
+        <div class="container">
+          <div class="newsletter-card">
+            <div class="newsletter-watermark" aria-hidden="true">美</div>
+            <div class="section-label-group" style="justify-content: center;">
+              <span class="section-label">Weekly Curation</span>
+              <span class="section-kanji-tag">美しき日常をお届けします</span>
+            </div>
+            <h2 class="newsletter-title">Stay Inspired.</h2>
+            <p class="newsletter-desc">
+              Get beautiful wallpaper discoveries delivered to your inbox every Sunday morning. No spam, only pristine anime artistry.
+            </p>
+            <form class="newsletter-form" id="newsletter-form" onsubmit="event.preventDefault(); window.AnimeApp.handleNewsletter(this);">
+              <input 
+                type="email" 
+                class="newsletter-input" 
+                placeholder="Enter your email address..." 
+                required 
+                aria-label="Your email address"
+              >
+              <button type="submit" class="btn-primary">
+                <span>Subscribe</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ------------------------------------------------------------------
+         VIEW 2: EXPLORE PAGE
+         ------------------------------------------------------------------ -->
+    <div id="explore-view" class="view-section">
+      <div class="container">
+        <!-- Explore Editorial Header -->
+        <div class="explore-header">
+          <div class="section-label-group">
+            <span class="section-label">Discovery Gallery</span>
+            <span class="section-kanji-tag">探索 — EXPLORE</span>
+          </div>
+          <h1 class="section-title">Find Your Anime Aesthetic</h1>
+          <p class="section-description">
+            Filter through ultra-high resolution artworks by aesthetic category, anime series, aspect ratio, or resolution.
+          </p>
+        </div>
+
+        <!-- Comprehensive Filter Toolbar -->
+        <div class="explore-toolbar">
+          <!-- Live Search Bar -->
+          <div class="search-bar-wrap">
+            <div class="search-icon-pos">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
+            <input 
+              type="text" 
+              id="explore-search-input" 
+              class="search-input-main" 
+              placeholder="Search by title, anime (e.g. Your Name, Suzume, Ghibli), artist, or tags..."
+              aria-label="Search wallpapers"
+            >
+            <button class="search-clear-btn" id="explore-search-clear" style="display:none;" title="Clear search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Category Pills Row -->
+          <div class="filter-pills-row" id="explore-category-pills">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Secondary Dropdowns Filter Bar -->
+          <div class="filter-dropdowns-row">
+            <div class="dropdown-group">
+              <!-- Anime Title Dropdown -->
+              <div class="custom-select-wrap">
+                <select id="filter-anime-select" class="filter-select" aria-label="Filter by Anime Title">
+                  <!-- Populated by JS -->
+                </select>
+                <span class="select-arrow">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </span>
+              </div>
+
+              <!-- Resolution Dropdown -->
+              <div class="custom-select-wrap">
+                <select id="filter-resolution-select" class="filter-select" aria-label="Filter by Resolution">
+                  <!-- Populated by JS -->
+                </select>
+                <span class="select-arrow">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </span>
+              </div>
+
+              <!-- Orientation Dropdown -->
+              <div class="custom-select-wrap">
+                <select id="filter-orientation-select" class="filter-select" aria-label="Filter by Orientation">
+                  <option value="All">All Orientations</option>
+                  <option value="Landscape">Landscape (16:9)</option>
+                  <option value="Portrait">Portrait (Mobile)</option>
+                  <option value="Ultrawide">Ultrawide (21:9)</option>
+                </select>
+                <span class="select-arrow">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </span>
+              </div>
+            </div>
+
+            <!-- Sort By Dropdown -->
+            <div class="custom-select-wrap">
+              <select id="filter-sort-select" class="filter-select" aria-label="Sort Wallpapers">
+                <option value="popular">Sort: Popular This Week</option>
+                <option value="latest">Sort: Latest Uploads</option>
+                <option value="likes">Sort: Most Liked</option>
+                <option value="downloads">Sort: Most Downloaded</option>
+              </select>
+              <span class="select-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Active Filter Badges Bar -->
+          <div class="active-filters-bar" id="active-filters-bar" style="display:none;">
+            <div class="active-tags-list" id="active-tags-list">
+              <!-- Active filter tag pills inserted here -->
+            </div>
+            <div style="display:flex; align-items:center; gap:1rem;">
+              <span id="active-results-counter" style="color:var(--text-secondary); font-size:0.8125rem;">Showing wallpapers</span>
+              <button class="clear-all-btn" id="clear-all-filters-btn">Clear All Filters</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Explore Masonry Gallery -->
+        <div class="masonry-gallery" id="explore-masonry-gallery" style="margin-top: 1.5rem; margin-bottom: 5rem;">
+          <!-- Wallpapers rendered dynamically -->
+        </div>
+
+        <!-- Empty State Container -->
+        <div class="empty-gallery-state" id="explore-empty-state" style="display:none;">
+          <svg class="empty-state-enso" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4">
+            <circle cx="50" cy="50" r="40" stroke-dasharray="180 30" stroke-linecap="round"></circle>
+          </svg>
+          <h3 class="empty-title">No Wallpapers Matched Your Search</h3>
+          <p class="empty-desc">
+            We couldn't find any artwork matching your current filters. Try relaxing your search criteria or resetting filters to see our full collection.
+          </p>
+          <button class="btn-primary" onclick="window.AnimeApp.clearFilters();">
+            <span>Reset All Filters</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ------------------------------------------------------------------
+         VIEW 3: CATEGORIES PAGE
+         ------------------------------------------------------------------ -->
+    <div id="categories-view" class="view-section">
+      <div class="container section-pad">
+        <div class="section-header">
+          <div class="section-label-group">
+            <span class="section-label">Aesthetic Classification</span>
+            <span class="section-kanji-tag">分野 — CATEGORIES</span>
+          </div>
+          <h1 class="section-title">Aesthetic Categories</h1>
+          <p class="section-description">
+            Explore carefully defined visual categories inspired by classical Japanese art philosophy, anime cinematography, and modern digital aesthetics.
+          </p>
+        </div>
+
+        <!-- Categories Big Showcase Grid -->
+        <div class="categories-grid" id="full-categories-grid" style="grid-template-columns: repeat(2, 1fr); gap: 2rem;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ------------------------------------------------------------------
+         VIEW 4: COLLECTIONS PAGE
+         ------------------------------------------------------------------ -->
+    <div id="collections-view" class="view-section">
+      <div class="container section-pad">
+        <div class="section-header">
+          <div class="section-label-group">
+            <span class="section-label">Curated Narratives</span>
+            <span class="section-kanji-tag">特集 — COLLECTIONS</span>
+          </div>
+          <h1 class="section-title">Themed Collections</h1>
+          <p class="section-description">
+            Immersive visual narratives hand-curated by our editors. Each collection brings together artworks that share an emotional atmosphere.
+          </p>
+        </div>
+
+        <!-- Full Collections Showcase Grid -->
+        <div class="collections-grid" id="full-collections-grid" style="grid-template-columns: repeat(2, 1fr); gap: 2.5rem;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ------------------------------------------------------------------
+         VIEW 5: FAVORITES PAGE
+         ------------------------------------------------------------------ -->
+    <div id="favorites-view" class="view-section">
+      <div class="container section-pad">
+        <div class="favorites-header-bar">
+          <div>
+            <div class="section-label-group">
+              <span class="section-label">Personal Sanctuary</span>
+              <span class="section-kanji-tag">お気に入り — SAVED</span>
+            </div>
+            <h1 class="section-title">Saved Aesthetics</h1>
+            <p class="section-description" id="fav-status-subtitle">
+              Your personal library of saved anime wallpapers, stored locally on your device.
+            </p>
+          </div>
+          <div style="display:flex; gap:0.75rem;">
+            <button class="btn-secondary" id="fav-download-all-btn" style="display:none;" onclick="window.AnimeApp.downloadAllFavorites();">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Download All</span>
+            </button>
+            <button class="btn-secondary" id="fav-clear-all-btn" style="display:none;" onclick="window.AnimeApp.clearAllFavorites();">
+              <span>Clear Saved</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Favorites Masonry Gallery -->
+        <div class="masonry-gallery" id="favorites-masonry-gallery">
+          <!-- Dynamically populated -->
+        </div>
+
+        <!-- Favorites Empty State -->
+        <div class="empty-gallery-state" id="favorites-empty-state" style="display:none;">
+          <svg class="empty-state-enso" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4">
+            <circle cx="50" cy="50" r="40" stroke-dasharray="160 40" stroke-linecap="round"></circle>
+          </svg>
+          <h3 class="empty-title">Your Collection is Waiting</h3>
+          <p class="empty-desc">
+            You haven't saved any wallpapers yet. While exploring, click the heart icon on any artwork to add it to your personal sanctuary.
+          </p>
+          <a href="#explore" class="btn-primary">
+            <span>Explore Wallpapers</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ------------------------------------------------------------------
+         VIEW 6: ABOUT PAGE
+         ------------------------------------------------------------------ -->
+    <div id="about-view" class="view-section">
+      <div class="container section-pad">
+        <div class="about-hero">
+          <div class="section-label-group" style="justify-content: center;">
+            <span class="section-label">Philosophy & Origin</span>
+            <span class="section-kanji-tag">理念 — AESTHETIC MANIFESTO</span>
+          </div>
+          <h1 class="section-title" style="font-size:3rem; margin-top:0.5rem;">The Art of Japanese Animation</h1>
+          <p class="section-description" style="margin: 1.25rem auto 0; font-size:1.125rem;">
+            AnimeWall was created to celebrate anime background art as serious, sublime landscape and architectural art.
+          </p>
+        </div>
+
+        <!-- Editorial Manifesto Card -->
+        <div class="about-manifesto-card">
+          <h2 style="font-family:var(--font-serif); font-size:1.75rem; margin-bottom:1.25rem;">
+            Elevating Anime Wallpapers into an Art Gallery Experience
+          </h2>
+          <p style="font-size:1.0625rem; color:var(--text-secondary); line-height:1.75; margin-bottom:1.5rem;">
+            For decades, legendary background artists—from Kazuo Oga and Nizo Yamamoto at Studio Ghibli, to the luminous atmospheric painters of Makoto Shinkai’s CoMix Wave Films—have crafted some of the most emotionally stirring visual worlds in cinema.
+          </p>
+          <p style="font-size:1.0625rem; color:var(--text-secondary); line-height:1.75; margin-bottom:1.5rem;">
+            Yet most wallpaper websites treat this art as cheap thumbnails, drowning in obnoxious advertising, chaotic neon gradients, and low-grade compression. AnimeWall is our antithesis to that chaos: a tranquil digital art gallery that treats every frame with reverence.
+          </p>
+
+          <!-- The Three Core Principles -->
+          <div class="principles-grid">
+            <div class="principle-item">
+              <div class="principle-kanji">間</div>
+              <h3 class="principle-name">Ma — Negative Space</h3>
+              <p class="principle-desc">
+                The Japanese concept of negative space. We give artworks generous room to breathe, so your mind—and your desktop icons—can rest peacefully.
+              </p>
+            </div>
+            <div class="principle-item">
+              <div class="principle-kanji">渋</div>
+              <h3 class="principle-name">Shibui — Subtle Restraint</h3>
+              <p class="principle-desc">
+                Quiet, unobtrusive beauty. Natural paper tones, delicate sumi-ink typography, and vermilion seal stamps used only for essential punctuation.
+              </p>
+            </div>
+            <div class="principle-item">
+              <div class="principle-kanji">情</div>
+              <h3 class="principle-name">Mono no Aware — Fleeting Grace</h3>
+              <p class="principle-desc">
+                An empathy toward impermanence. Twilight skies, fading summer cicadas, train windows streaked with rain, and solitary beauty.
+              </p>
+            </div>
+          </div>
+
+          <div style="padding-top:1.5rem; border-top:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+            <div>
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--text-primary);">Curatorial Standards</span>
+              <p style="font-size:0.875rem; color:var(--text-secondary); margin-top:0.25rem;">
+                All wallpapers are individually screened for resolution integrity, color balance, and compositional excellence.
+              </p>
+            </div>
+            <a href="#explore" class="btn-primary">
+              <span>Enter Gallery</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ======================================================================
+       WALLPAPER DETAILS MODAL
+       ====================================================================== -->
+  <div class="modal-backdrop" id="wallpaper-detail-modal" aria-hidden="true">
+    <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modal-wallpaper-title">
+      <!-- Modal Navigation Bar -->
+      <div class="modal-header-bar">
+        <div class="modal-breadcrumb">
+          <a href="#explore" onclick="window.AnimeApp.closeModal();">Gallery</a>
+          <span class="sep">/</span>
+          <span id="modal-breadcrumb-category">Category</span>
+          <span class="sep">/</span>
+          <span id="modal-breadcrumb-title" style="color:var(--text-primary); font-weight:500;">Title</span>
+        </div>
+        <button class="modal-close-btn" id="modal-close-btn" aria-label="Close Wallpaper Details">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Body Scroll Area -->
+      <div class="modal-body-scroll">
+        <div class="modal-detail-grid">
+          <!-- Left: High-Res Preview Stage -->
+          <div class="modal-preview-stage">
+            <img id="modal-preview-img" src="" alt="Wallpaper Preview" class="modal-preview-img">
+            <button class="preview-zoom-toggle" id="modal-zoom-btn" title="View in Full Lightbox">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;">
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <polyline points="9 21 3 21 3 15"></polyline>
+                <line x1="21" y1="3" x2="14" y2="10"></line>
+                <line x1="3" y1="21" x2="10" y2="14"></line>
+              </svg>
+              <span>Full View</span>
+            </button>
+          </div>
+
+          <!-- Right: Curated Metadata & Actions -->
+          <div class="modal-info-panel">
+            <div class="modal-stamp-row">
+              <span class="modal-category-badge" id="modal-category-badge">Category</span>
+              <div class="hanko-stamp" id="modal-kanji-stamp">美</div>
+            </div>
+
+            <h2 class="modal-title" id="modal-wallpaper-title">Wallpaper Title</h2>
+            <div class="modal-anime-name" id="modal-anime-name">
+              <span>Anime:</span> <strong id="modal-anime-title">Title</strong>
+            </div>
+
+            <p class="modal-desc-text" id="modal-desc-text">
+              Curated description of this anime wallpaper.
+            </p>
+
+            <!-- Technical Specifications Grid -->
+            <div class="modal-specs-grid">
+              <div class="spec-cell">
+                <span class="spec-title">Resolution</span>
+                <span class="spec-value" id="modal-spec-res">3840 x 2160 (4K)</span>
+              </div>
+              <div class="spec-cell">
+                <span class="spec-title">Aspect Ratio</span>
+                <span class="spec-value" id="modal-spec-ratio">16:9 Landscape</span>
+              </div>
+              <div class="spec-cell">
+                <span class="spec-title">Artist / Studio</span>
+                <span class="spec-value" id="modal-spec-artist">Studio Name</span>
+              </div>
+              <div class="spec-cell">
+                <span class="spec-title">Format & Size</span>
+                <span class="spec-value" id="modal-spec-format">PNG / 8.6 MB</span>
+              </div>
+            </div>
+
+            <!-- Color Palette Section -->
+            <div class="palette-section">
+              <div class="palette-label">
+                <span>Color Palette</span>
+                <span style="font-size:0.6875rem; color:var(--text-muted); text-transform:none;">Click to copy HEX</span>
+              </div>
+              <div class="palette-swatches" id="modal-palette-swatches">
+                <!-- Color swatches rendered here -->
+              </div>
+            </div>
+
+            <!-- Download and Favorite Actions -->
+            <div class="modal-actions-box">
+              <div class="download-options-group">
+                <select id="modal-download-res-select" class="res-picker-select" aria-label="Select Download Resolution">
+                  <option value="original">Master 4K Ultra HD</option>
+                  <option value="2k">2K QHD (2560 x 1440)</option>
+                  <option value="1080p">Full HD (1920 x 1080)</option>
+                  <option value="mobile">Mobile Crop (9:16)</option>
+                </select>
+                <button class="download-main-btn" id="modal-download-btn" onclick="window.AnimeApp.triggerWallpaperDownload();">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:18px;height:18px;">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  <span>Download Wallpaper</span>
+                </button>
+              </div>
+
+              <div class="secondary-actions-row">
+                <button class="btn-secondary-action" id="modal-fav-toggle-btn" onclick="window.AnimeApp.toggleModalFavorite();">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  </svg>
+                  <span id="modal-fav-text">Save to Favorites</span>
+                </button>
+
+                <button class="btn-secondary-action" id="modal-share-btn" onclick="window.AnimeApp.copyWallpaperLink();">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                  </svg>
+                  <span>Copy Link</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Related Wallpapers Section -->
+        <div class="modal-related-section">
+          <div class="section-label-group">
+            <span class="section-label">Similar Aesthetics</span>
+            <span class="section-kanji-tag">関連作品 — HARMONY</span>
+          </div>
+          <h3 style="font-family:var(--font-serif); font-size:1.375rem; font-weight:600;">Related Artworks</h3>
+          <div class="modal-related-grid" id="modal-related-grid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       QUICK SEARCH COMMAND PALETTE (Ctrl + K)
+       ====================================================================== -->
+  <div class="command-palette-backdrop" id="command-palette-modal">
+    <div class="command-palette-box">
+      <div class="command-input-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input 
+          type="text" 
+          id="command-palette-input" 
+          class="command-input" 
+          placeholder="Search by aesthetic, anime, artist, or collection..."
+          autocomplete="off"
+        >
+        <span class="key-hint">ESC to close</span>
+      </div>
+      <div class="command-results-list" id="command-results-list">
+        <!-- Live search results rendered here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       TOAST NOTIFICATION CONTAINER
+       ====================================================================== -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- ======================================================================
+       SITE FOOTER (Japanese Minimalist Editorial Footer)
+       ====================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top-grid">
+        <!-- Col 1: Brand & Manifesto -->
+        <div class="footer-brand-col">
+          <a href="#home" class="nav-brand">
+            <div class="hanko-stamp">壁</div>
+            <div class="brand-text-wrap">
+              <span class="brand-title">AnimeWall</span>
+              <span class="brand-subtitle">Find Your Aesthetic</span>
+            </div>
+          </a>
+          <p class="footer-manifesto">
+            A quiet space for visual contemplation, honoring the artistry, atmosphere, and craftsmanship of Japanese animation background art.
+          </p>
+          <div class="aesthetic-seal-pill">
+            <span style="color:var(--accent-red); font-family:var(--font-serif);">朱印</span>
+            <span>Hand-Curated Anime Gallery</span>
+          </div>
+        </div>
+
+        <!-- Col 2: Navigation -->
+        <div class="footer-nav-col">
+          <h4 class="footer-col-title">Navigation</h4>
+          <ul class="footer-links-list">
+            <li><a href="#home" class="footer-link">Home</a></li>
+            <li><a href="#explore" class="footer-link">Explore Gallery</a></li>
+            <li><a href="#categories" class="footer-link">Aesthetic Categories</a></li>
+            <li><a href="#collections" class="footer-link">Themed Collections</a></li>
+            <li><a href="#favorites" class="footer-link">Saved Wallpapers</a></li>
+            <li><a href="#about" class="footer-link">About AnimeWall</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Aesthetics -->
+        <div class="footer-nav-col">
+          <h4 class="footer-col-title">Aesthetics</h4>
+          <ul class="footer-links-list">
+            <li><a href="#explore" onclick="window.AnimeApp.quickFilterCategory('nature')" class="footer-link">Nature & Moss (自然)</a></li>
+            <li><a href="#explore" onclick="window.AnimeApp.quickFilterCategory('japanese-aesthetic')" class="footer-link">Japanese Aesthetic (日本美)</a></li>
+            <li><a href="#explore" onclick="window.AnimeApp.quickFilterCategory('cyberpunk')" class="footer-link">Cyberpunk Shibuya (電脳)</a></li>
+            <li><a href="#explore" onclick="window.AnimeApp.quickFilterCategory('minimalist')" class="footer-link">Minimalist Zen (簡素)</a></li>
+            <li><a href="#explore" onclick="window.AnimeApp.quickFilterCategory('dark')" class="footer-link">Yūgen Dark (闇)</a></li>
+            <li><a href="#explore" onclick="window.AnimeApp.quickFilterCategory('landscape')" class="footer-link">Shinkai Horizons (風景)</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Legal & Contact -->
+        <div class="footer-nav-col">
+          <h4 class="footer-col-title">Platform</h4>
+          <ul class="footer-links-list">
+            <li><a href="#about" class="footer-link">Curatorial Policy</a></li>
+            <li><a href="#about" class="footer-link">Artist Attribution</a></li>
+            <li><a href="#about" class="footer-link">Privacy Policy</a></li>
+            <li><a href="#about" class="footer-link">Terms of Service</a></li>
+            <li><a href="mailto:curator@animewall.gallery" class="footer-link">Contact Curators</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div class="footer-copyright">
+          <span>&copy; 2026 AnimeWall. All rights reserved.</span>
+          <span style="opacity:0.5;">—</span>
+          <span>Crafted with Japanese minimalist aesthetics and editorial typography.</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:1.25rem;">
+          <span class="jp-kanji" style="font-size:0.875rem; color:var(--text-secondary);">美 ・ 空 ・ 夢 ・ 桜 ・ 作品</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

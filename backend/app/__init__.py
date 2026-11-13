@@ -1,0 +1,1 @@
+"""AnimeWall backend application package."""

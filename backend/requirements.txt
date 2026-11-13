@@ -1,0 +1,9 @@
+# Runtime dependencies — pinned to versions verified for the Phase 2 baseline.
+fastapi==0.162.5
+uvicorn[standard]==0.54.0
+pydantic==2.14.3
+pydantic-settings==2.16.2
+python-dotenv==1.2.4
+SQLAlchemy==2.0.57
+asyncpg==0.32.0
+alembic==1.20.1
