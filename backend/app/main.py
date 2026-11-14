@@ -1,7 +1,8 @@
 """AnimeWall FastAPI application entry point."""
 from contextlib import asynccontextmanager
 import logging
-
+from app.routers.health import router as health_router
+from app.routers.categories import router as categories_router
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -64,7 +65,7 @@ app.add_middleware(
 app.add_middleware(RequestIDMiddleware)
 
 app.include_router(health_router, prefix=settings.api_prefix)
-
+app.include_router(categories_router, prefix=settings.api_prefix)
 
 @app.get("/", tags=["System"], include_in_schema=False)
 async def root() -> dict[str, object]:

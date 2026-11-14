@@ -1,7 +1,15 @@
-"""SQLAlchemy model package.
+"""SQLAlchemy model package."""
 
-Feature models will be registered here in later implementation phases.
-"""
 from app.models.base import Base
+from app.models.category import Category
+from app.models.user import User
+from app.models.wallpaper import Wallpaper
+from app.models.wallpaper_asset import WallpaperAsset
 
-__all__ = ["Base"]
+__all__ = [
+    "Base",
+    "User",
+    "Category",
+    "Wallpaper",
+    "WallpaperAsset",
+]

@@ -1,6 +1,10 @@
-"""Shared SQLAlchemy declarative base and metadata naming conventions."""
-from sqlalchemy import MetaData
-from sqlalchemy.orm import DeclarativeBase
+
+"""Shared SQLAlchemy base and common model mixins."""
+
+from datetime import datetime
+
+from sqlalchemy import DateTime, MetaData, func
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
 NAMING_CONVENTION = {
@@ -13,6 +17,23 @@ NAMING_CONVENTION = {
 
 
 class Base(DeclarativeBase):
-    """Base class used by all future SQLAlchemy models."""
+    """Base class inherited by all database models."""
 
     metadata = MetaData(naming_convention=NAMING_CONVENTION)
+
+
+class TimestampMixin:
+    """Common creation and update timestamps."""
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
+
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
