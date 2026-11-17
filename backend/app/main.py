@@ -3,9 +3,10 @@ from contextlib import asynccontextmanager
 import logging
 from app.routers.health import router as health_router
 from app.routers.categories import router as categories_router
+from app.routers.wallpapers import router as wallpapers_router
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from app.routers.auth import router as auth_router
 from app.core.config import settings
 from app.core.exceptions import (
     APIError,
@@ -52,7 +53,6 @@ app.add_exception_handler(APIError, api_error_handler)
 app.add_exception_handler(StarletteHTTPException, http_error_handler)
 app.add_exception_handler(RequestValidationError, validation_error_handler)
 app.add_exception_handler(Exception, unhandled_error_handler)
-
 # CORS is restricted to configured frontend origins; credentials never use wildcard origins.
 app.add_middleware(
     CORSMiddleware,
@@ -66,7 +66,8 @@ app.add_middleware(RequestIDMiddleware)
 
 app.include_router(health_router, prefix=settings.api_prefix)
 app.include_router(categories_router, prefix=settings.api_prefix)
-
+app.include_router(auth_router, prefix=settings.api_prefix)
+app.include_router(wallpapers_router, prefix="/api")
 @app.get("/", tags=["System"], include_in_schema=False)
 async def root() -> dict[str, object]:
     return {

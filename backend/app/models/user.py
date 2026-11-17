@@ -77,6 +77,15 @@ class User(Base, TimestampMixin):
     wallpapers: Mapped[list["Wallpaper"]] = relationship(
         back_populates="creator"
     )
+    submitted_rights_records: Mapped[list["WallpaperRights"]] = relationship(
+        foreign_keys="WallpaperRights.submitted_by",
+        back_populates="submitted_by_user",
+    )
+
+    reviewed_rights_records: Mapped[list["WallpaperRights"]] = relationship(
+        foreign_keys="WallpaperRights.reviewed_by",
+        back_populates="reviewer",
+    )
 
     def __repr__(self) -> str:
         return f"<User username={self.username!r}>"
