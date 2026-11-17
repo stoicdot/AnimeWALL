@@ -1,6 +1,4 @@
 -r requirements.txt
 
-# Development and test dependencies
-httpx==0.28.1
-pytest==9.2.0
-pytest-asyncio==1.4.1.post1
+# Development and testing dependencies are already included
+# and pinned in requirements.txt.

@@ -2,7 +2,7 @@
 from functools import lru_cache
 from typing import Literal
 
-from pydantic import Field, field_validator
+from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -16,6 +16,18 @@ class Settings(BaseSettings):
         extra="ignore",
         validate_default=True,
     )
+    # JWT authentication
+    jwt_secret_key: SecretStr | None = None
+    jwt_algorithm: Literal["HS256"] = "HS256"
+    jwt_access_token_expire_minutes: int = Field(
+        default=15,
+        ge=1,
+        le=60,
+    )
+        # Supabase Storage
+    supabase_url: str | None = None
+    supabase_service_role_key: SecretStr | None = None
+    supabase_storage_bucket: str = "animewall"
 
     app_name: str = "AnimeWall API"
     app_version: str = "0.1.0"
@@ -62,8 +74,6 @@ class Settings(BaseSettings):
         if not value.startswith("/"):
             value = f"/{value}"
         return value.rstrip("/") or "/api"
-
-
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
     """Return one cached settings instance for the process."""

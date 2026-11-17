@@ -225,6 +225,9 @@ class Wallpaper(Base, TimestampMixin):
     assets: Mapped[list["WallpaperAsset"]] = relationship(
         back_populates="wallpaper"
     )
+    rights_records: Mapped[list["WallpaperRights"]] = relationship(
+        back_populates="wallpaper",
+    )
 
     def __repr__(self) -> str:
         return f"<Wallpaper title={self.title!r}>"
